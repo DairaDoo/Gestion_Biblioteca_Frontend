@@ -1,183 +1,139 @@
-function mostrarTabla(idTabla) {
-    // Ocultar todas las tablas
-    const tablas = document.querySelectorAll('.tabla-container');
-    tablas.forEach(tabla => {
-        tabla.classList.remove('tabla-activo');
-    });
-
-    // Mostrar la tabla correspondiente
-    const tabla = document.getElementById(idTabla);
-    tabla.classList.add('tabla-activo');
+// headers de las tablas
+const headers = {
+    usuarios: ['Número de Socio', 'Nombre'],
+    libros: ['ID Libro', 'Título', 'Autor', 'ID Categoría'],
+    prestamos: ['ID Préstamo', 'Número de Socio', 'ID Libro', 'Fecha de Préstamo', 'Fecha de Devolución'],
+    categorias: ['ID Categoría', 'Nombre de Categoría']
 }
 
-function mostrarUsuarios('tabla-usuarios', 'http://127.0.0.1:5000/api/getUsuarios') {
-    const tabla = document.createElement('table'); // Crear tabla dinámicamente
-    tabla.classList.add('table', 'table-striped', 'table-bordered'); // Añadir clases de Bootstrap
-    const contenedorTabla = document.querySelector('.tabla-container'); // Obtener el contenedor de la tabla
+let tipoTablaActual = ''; // Variable para almacenar el tipo de tabla actual
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Crear encabezados de tabla
-            const thead = document.createElement('thead');
-            const tr = document.createElement('tr');
-            for (const column in data[0]) {
-                const th = document.createElement('th');
-                th.textContent = column;
-                tr.appendChild(th);
-            }
-            thead.appendChild(tr);
-            tabla.appendChild(thead);
+document.addEventListener('DOMContentLoaded', function() {
+    mostrarUsuarios(); // Llama a la función mostrarUsuarios() cuando la página se carga
+});
 
-            // Crear filas de tabla
-            const tbody = document.createElement('tbody');
-            data.forEach(rowData => {
-                const tr = document.createElement('tr');
-                for (const value of Object.values(rowData)) {
-                    const td = document.createElement('td');
-                    td.textContent = value;
-                    tr.appendChild(td);
-                }
-                tbody.appendChild(tr);
+function mostrarUsuarios() {
+    tipoTablaActual = 'usuarios'; // Establece el tipo de tabla actual
+    fetch('http://localhost:5000/api/getUsuarios')
+    .then(response => response.json())
+    .then(data => {
+        const cuerpoTabla = document.getElementById('cuerpo-tabla');
+        cuerpoTabla.innerHTML = ''; // Limpiar el cuerpo de la tabla antes de agregar nuevos datos
+
+        // Agregar encabezados de tabla
+        const encabezadoTabla = document.getElementById('tabla-encabezado');
+        encabezadoTabla.innerHTML = '';
+        headers.usuarios.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            encabezadoTabla.appendChild(th);
+        });
+
+        // Agregar filas a la tabla
+        data.forEach(usuario => {
+            const fila = document.createElement('tr');
+            usuario.forEach(dato => {
+                const celda = document.createElement('td');
+                celda.textContent = dato;
+                fila.appendChild(celda);
             });
-            tabla.appendChild(tbody);
-
-            // Eliminar cualquier tabla anterior antes de mostrar la nueva
-            while (contenedorTabla.firstChild) {
-                contenedorTabla.removeChild(contenedorTabla.firstChild);
-            }
-
-            // Mostrar la nueva tabla en el contenedor
-            contenedorTabla.appendChild(tabla);
-        })
-        .catch(error => console.error('Error al obtener datos:', error));
+            cuerpoTabla.appendChild(fila);
+        });
+    })
+    .catch(error => console.error('Error al obtener usuarios:', error));
 }
 
-function mostrarLibros('tabla-libros', 'http://127.0.0.1:5000/api/getLibros') {
-    const tabla = document.createElement('table'); // Crear tabla dinámicamente
-    tabla.classList.add('table', 'table-striped', 'table-bordered'); // Añadir clases de Bootstrap
-    const contenedorTabla = document.querySelector('.tabla-container'); // Obtener el contenedor de la tabla
+function mostrarLibros() {
+    tipoTablaActual = 'libros'; // Establece el tipo de tabla actual
+    fetch('http://localhost:5000/api/getLibros')
+    .then(response => response.json())
+    .then(data => {
+        const cuerpoTabla = document.getElementById('cuerpo-tabla');
+        cuerpoTabla.innerHTML = ''; // Limpiar el cuerpo de la tabla antes de agregar nuevos datos
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Crear encabezados de tabla
-            const thead = document.createElement('thead');
-            const tr = document.createElement('tr');
-            for (const column in data[0]) {
-                const th = document.createElement('th');
-                th.textContent = column;
-                tr.appendChild(th);
-            }
-            thead.appendChild(tr);
-            tabla.appendChild(thead);
+        // Agregar encabezados de tabla
+        const encabezadoTabla = document.getElementById('tabla-encabezado');
+        encabezadoTabla.innerHTML = '';
+        headers.libros.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            encabezadoTabla.appendChild(th);
+        });
 
-            // Crear filas de tabla
-            const tbody = document.createElement('tbody');
-            data.forEach(rowData => {
-                const tr = document.createElement('tr');
-                for (const value of Object.values(rowData)) {
-                    const td = document.createElement('td');
-                    td.textContent = value;
-                    tr.appendChild(td);
-                }
-                tbody.appendChild(tr);
+        // Agregar filas a la tabla
+        data.forEach(libro => {
+            const fila = document.createElement('tr');
+            libro.forEach(dato => {
+                const celda = document.createElement('td');
+                celda.textContent = dato;
+                fila.appendChild(celda);
             });
-            tabla.appendChild(tbody);
-
-            // Eliminar cualquier tabla anterior antes de mostrar la nueva
-            while (contenedorTabla.firstChild) {
-                contenedorTabla.removeChild(contenedorTabla.firstChild);
-            }
-
-            // Mostrar la nueva tabla en el contenedor
-            contenedorTabla.appendChild(tabla);
-        })
-        .catch(error => console.error('Error al obtener datos:', error));
+            cuerpoTabla.appendChild(fila);
+        });
+    })
+    .catch(error => console.error('Error al obtener libros:', error));
 }
 
-function mostrarPrestamos('tabla-prestamos', 'http://127.0.0.1:5000/api/getPrestamos') {
-    const tabla = document.createElement('table'); // Crear tabla dinámicamente
-    tabla.classList.add('table', 'table-striped', 'table-bordered'); // Añadir clases de Bootstrap
-    const contenedorTabla = document.querySelector('.tabla-container'); // Obtener el contenedor de la tabla
+function mostrarPrestamos() {
+    tipoTablaActual = "prestamos";
+    fetch('http://localhost:5000/api/getPrestamos')
+    .then(response => response.json())
+    .then(data => {
+        const cuerpoTabla = document.getElementById('cuerpo-tabla');
+        cuerpoTabla.innerHTML = ''; // Limpiar el cuerpo de la tabla antes de agregar nuevos datos
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Crear encabezados de tabla
-            const thead = document.createElement('thead');
-            const tr = document.createElement('tr');
-            for (const column in data[0]) {
-                const th = document.createElement('th');
-                th.textContent = column;
-                tr.appendChild(th);
-            }
-            thead.appendChild(tr);
-            tabla.appendChild(thead);
+        // Agregar encabezados de tabla
+        const encabezadoTabla = document.getElementById('tabla-encabezado');
+        encabezadoTabla.innerHTML = '';
+        headers.prestamos.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            encabezadoTabla.appendChild(th);
+        });
 
-            // Crear filas de tabla
-            const tbody = document.createElement('tbody');
-            data.forEach(rowData => {
-                const tr = document.createElement('tr');
-                for (const value of Object.values(rowData)) {
-                    const td = document.createElement('td');
-                    td.textContent = value;
-                    tr.appendChild(td);
-                }
-                tbody.appendChild(tr);
+        // Agregar Filas a la tabla
+        data.forEach(prestamo => {
+            const fila = document.createElement('tr');
+            prestamo.forEach(dato => {
+                const celda = document.createElement('td');
+                celda.textContent = dato;
+                fila.appendChild(celda);
             });
-            tabla.appendChild(tbody);
-
-            // Eliminar cualquier tabla anterior antes de mostrar la nueva
-            while (contenedorTabla.firstChild) {
-                contenedorTabla.removeChild(contenedorTabla.firstChild);
-            }
-
-            // Mostrar la nueva tabla en el contenedor
-            contenedorTabla.appendChild(tabla);
-        })
-        .catch(error => console.error('Error al obtener datos:', error));
+            cuerpoTabla.appendChild(fila);
+        });
+    })
+    .catch(error => console.error('Error al obtener préstamos:', error));
 }
 
-function mostrarCategorias('tabla-categorias', 'http://127.0.0.1:5000/api/getCategorias') {
-    const tabla = document.createElement('table'); // Crear tabla dinámicamente
-    tabla.classList.add('table', 'table-striped', 'table-bordered'); // Añadir clases de Bootstrap
-    const contenedorTabla = document.querySelector('.tabla-container'); // Obtener el contenedor de la tabla
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Crear encabezados de tabla
-            const thead = document.createElement('thead');
-            const tr = document.createElement('tr');
-            for (const column in data[0]) {
-                const th = document.createElement('th');
-                th.textContent = column;
-                tr.appendChild(th);
-            }
-            thead.appendChild(tr);
-            tabla.appendChild(thead);
+function mostrarCategorias() {
+    tipoTablaActual = "categorias";
+    fetch('http://localhost:5000/api/getCategorias')
+    .then(response => response.json())
+    .then(data => {
+        const cuerpoTabla = document.getElementById('cuerpo-tabla');
+        cuerpoTabla.innerHTML = ''; // Limpiar el cuerpo de la tabla antes de agregar nuevos datos
 
-            // Crear filas de tabla
-            const tbody = document.createElement('tbody');
-            data.forEach(rowData => {
-                const tr = document.createElement('tr');
-                for (const value of Object.values(rowData)) {
-                    const td = document.createElement('td');
-                    td.textContent = value;
-                    tr.appendChild(td);
-                }
-                tbody.appendChild(tr);
+        // Agregar encabezados de tabla
+        const encabezadoTabla = document.getElementById('tabla-encabezado');
+        encabezadoTabla.innerHTML = '';
+        headers.categorias.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            encabezadoTabla.appendChild(th);
+        });
+
+        // Agregar Filas a la tabla
+        data.forEach(categoria => {
+            const fila = document.createElement('tr');
+            categoria.forEach(dato => {
+                const celda = document.createElement('td');
+                celda.textContent = dato;
+                fila.appendChild(celda);
             });
-            tabla.appendChild(tbody);
-
-            // Eliminar cualquier tabla anterior antes de mostrar la nueva
-            while (contenedorTabla.firstChild) {
-                contenedorTabla.removeChild(contenedorTabla.firstChild);
-            }
-
-            // Mostrar la nueva tabla en el contenedor
-            contenedorTabla.appendChild(tabla);
-        })
-        .catch(error => console.error('Error al obtener datos:', error));
+            cuerpoTabla.appendChild(fila);
+        });
+    })
+    .catch(error => console.error('Error al obtener categorías:', error));
 }
+

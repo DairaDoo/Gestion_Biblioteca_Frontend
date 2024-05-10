@@ -4,7 +4,11 @@
 }
 
 .navbar.bg-dark {
-    background-color: brwon !important;
+    background-color: #3F2305 !important;
+}
+
+body {
+    background-color: #F3EEEA;
 }
 
 
@@ -16,7 +20,6 @@
 .btn-outline-secondary:hover {
     border: none; /* Esto quitará el borde al pasar el mouse */
 }
-
 
 /* Enlaces de navegación */
 .nav-link {
@@ -32,11 +35,19 @@
 
 /* Tabla de usuarios */
 .table {
-    margin-top: 20px;
+    margin-top: 40px; /* Incrementa el margen superior para dar más espacio */
 }
 
-.table th, .table td {
+.table td {
     text-align: center;
+    padding: 12px;
+    font-size: 18px; /* Ajusta el tamaño de la fuente */
+}
+
+.table th {
+    text-align: center;
+    padding: 10px;
+    font-size: 22px;
 }
 
 .table tbody tr:nth-child(odd) {
@@ -49,4 +60,10 @@
     height: 10px;
     margin: 0 10px;
     background-color: rgba(255, 255, 255, 0.5); /* Color del separador */
+}
+
+.table-border-color{
+    border-color: green;
+    border-width: 100px;
+    border-radius: 100px;
 }

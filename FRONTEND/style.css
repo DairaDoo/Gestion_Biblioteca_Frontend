@@ -11,7 +11,6 @@ body {
     background-color: #F3EEEA;
 }
 
-
 .btn-outline-secondary {
     border: none; /* Esto quitará el borde */
 }
@@ -24,7 +23,7 @@ body {
 /* Enlaces de navegación */
 .nav-link {
     border: 1px solid white;
-    padding: 8px 12px;
+    padding: 6px 10px; /* Reducir el relleno vertical y horizontal */
     border-radius: 5px;
 }
 
@@ -35,35 +34,37 @@ body {
 
 /* Tabla de usuarios */
 .table {
-    margin-top: 40px; /* Incrementa el margen superior para dar más espacio */
+    margin-top: 40px; /* Espacio superior */
+    font-size: 16px; /* Tamaño de fuente */
+    width: 100%; /* Ancho completo de la tabla */
+    border-collapse: collapse; /* Colapso de borde para evitar espacios entre celdas */
 }
 
-.table td {
-    text-align: center;
-    padding: 12px;
-    font-size: 18px; /* Ajusta el tamaño de la fuente */
+.table td,
+.table th {
+    padding: 8px; /* Reducir el relleno de las celdas */
 }
 
 .table th {
-    text-align: center;
-    padding: 10px;
-    font-size: 22px;
+    font-size: 18px; /* Reducir el tamaño de la fuente de los encabezados */
+    background-color: #f2f2f2; /* Color de fondo de los encabezados */
+    font-weight: bold; /* Negrita */
+
+}
+
+.table th,
+.table td {
+    padding: 8px; /* Espaciado interno de las celdas */
+    text-align: center; /* Alineación centrada horizontalmente */
+    vertical-align: middle; /* Alineación centrada verticalmente */
 }
 
 .table tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-.nav-link-divider {
-    display: inline-block;
-    width: 1px;
-    height: 10px;
-    margin: 0 10px;
-    background-color: rgba(255, 255, 255, 0.5); /* Color del separador */
-}
-
+/* Eliminar el borde de la tabla y dar un aspecto de tabla más compacto */
 .table-border-color{
-    border-color: green;
-    border-width: 100px;
-    border-radius: 100px;
+    border: none;
+    border-collapse: collapse;
 }

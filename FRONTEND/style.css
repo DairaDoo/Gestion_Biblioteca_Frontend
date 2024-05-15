@@ -40,9 +40,13 @@ body {
     border-collapse: collapse; /* Colapso de borde para evitar espacios entre celdas */
 }
 
+
 .table td,
 .table th {
     padding: 8px; /* Reducir el relleno de las celdas */
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .table th {
@@ -65,6 +69,35 @@ body {
 
 /* Eliminar el borde de la tabla y dar un aspecto de tabla más compacto */
 .table-border-color{
-    border: none;
+    border-color: green;
     border-collapse: collapse;
+}
+
+/* Agrega margen a la derecha del botón de borrar */
+.btn-borrar {
+    margin-right: 10px; /* Puedes ajustar este valor según sea necesario */
+}
+
+
+/* Highlight active nav button */
+.navbar-nav .nav-item .btn {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-item .btn.active {
+    background-color: grey; /* Change to the color you prefer */
+    color: white;
+}
+
+/* style.css */
+.btn-danger {
+    background-color: #cd4040; /* Color de fondo personalizado */
+    color: white; /* Color del texto */
+    border: none; /* Sin bordes */
+    padding: 5px 10px; /* Espaciado interior */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+}
+
+.btn-custom-borrar:hover {
+    background-color: #141111; /* Color de fondo al pasar el ratón */
 }

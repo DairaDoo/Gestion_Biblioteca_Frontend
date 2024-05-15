@@ -12,8 +12,18 @@ document.addEventListener('DOMContentLoaded', function() {
     mostrarUsuarios(); // Llama a la función mostrarUsuarios() cuando la página se carga
 });
 
+function clearActiveClass() {
+    // Remove active class from all buttons
+    document.querySelectorAll('.navbar-nav .nav-item .btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+}
+
 function mostrarUsuarios() {
-    tipoTablaActual = 'usuarios'; // Establece el tipo de tabla actual
+    tipoTablaActual = 'usuarios';
+    // Clear active class from all buttons
+    clearActiveClass();
+    document.querySelector('.nav-item.usuarios .btn').classList.add('active');
     fetch('http://localhost:5000/api/getUsuarios')
     .then(response => response.json())
     .then(data => {
@@ -23,28 +33,67 @@ function mostrarUsuarios() {
         // Agregar encabezados de tabla
         const encabezadoTabla = document.getElementById('tabla-encabezado');
         encabezadoTabla.innerHTML = '';
-        headers.usuarios.forEach(header => {
+        headers.categorias.forEach(header => {
             const th = document.createElement('th');
             th.textContent = header;
             encabezadoTabla.appendChild(th);
         });
 
+        // Agregar encabezado adicional para el botón de borrar
+        const thBorrar = document.createElement('th');
+        thBorrar.textContent = 'Editar';
+        encabezadoTabla.appendChild(thBorrar);
+
         // Agregar filas a la tabla
         data.forEach(usuario => {
+            // Crear una fila
             const fila = document.createElement('tr');
+
+            // Agregar celdas a la fila
             usuario.forEach(dato => {
                 const celda = document.createElement('td');
                 celda.textContent = dato;
                 fila.appendChild(celda);
             });
+
+            // Crear la celda para el botón de borrar
+            const celdaBorrar = document.createElement('td');
+
+            // Crear el botón de borrar
+            const botonBorrar = document.createElement('button');
+            botonBorrar.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+            </svg>`;
+            
+
+            botonBorrar.classList.add('btn', 'btn-danger', 'btn-borrar'); // Aplica la clase CSS
+            botonBorrar.dataset.idUsuario = usuario[0]; // Guarda el ID del usuario en un atributo de datos
+            botonBorrar.addEventListener('click', function() {
+                // Llamar a la función para borrar usuario y pasar el ID del usuario
+                borrarUsuario(this.dataset.idUsuario);
+            });
+
+            // Agregar el botón de borrar a la celda correspondiente
+            celdaBorrar.appendChild(botonBorrar);
+
+            // Agregar la celda al final de la fila
+            fila.appendChild(celdaBorrar);
+
+            // Agregar la fila al cuerpo de la tabla
             cuerpoTabla.appendChild(fila);
         });
     })
     .catch(error => console.error('Error al obtener usuarios:', error));
 }
 
+
+
 function mostrarLibros() {
-    tipoTablaActual = 'libros'; // Establece el tipo de tabla actual
+    tipoTablaActual = 'libros';
+    // Clear active class from all buttons
+    clearActiveClass();
+    document.querySelector('.nav-item.libros .btn').classList.add('active');
     fetch('http://localhost:5000/api/getLibros')
     .then(response => response.json())
     .then(data => {
@@ -60,6 +109,11 @@ function mostrarLibros() {
             encabezadoTabla.appendChild(th);
         });
 
+        // Agregar encabezado adicional para el botón de borrar
+        const thBorrar = document.createElement('th');
+        thBorrar.textContent = 'Editar';
+        encabezadoTabla.appendChild(thBorrar);
+
         // Agregar filas a la tabla
         data.forEach(libro => {
             const fila = document.createElement('tr');
@@ -68,14 +122,42 @@ function mostrarLibros() {
                 celda.textContent = dato;
                 fila.appendChild(celda);
             });
+
+            // Crear la celda para el botón de borrar
+            const celdaBorrar = document.createElement('td');
+
+            // Crear el botón de borrar
+            const botonBorrar = document.createElement('button');
+            botonBorrar.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                </svg>`;
+            botonBorrar.classList.add('btn', 'btn-danger', 'btn-borrar'); // Aplica la clase CSS
+            botonBorrar.dataset.idLibro = libro[0]; // Guarda el ID del libro en un atributo de datos
+            botonBorrar.addEventListener('click', function() {
+                // Llamar a la función para borrar libro y pasar el ID del libro
+                borrarLibro(this.dataset.idLibro);
+            });
+
+            // Agregar el botón de borrar a la celda correspondiente
+            celdaBorrar.appendChild(botonBorrar);
+
+            // Agregar la celda al final de la fila
+            fila.appendChild(celdaBorrar);
+
+            // Agregar la fila al cuerpo de la tabla
             cuerpoTabla.appendChild(fila);
         });
     })
     .catch(error => console.error('Error al obtener libros:', error));
 }
 
+
 function mostrarPrestamos() {
-    tipoTablaActual = "prestamos";
+    tipoTablaActual = 'prestamos';
+    // Clear active class from all buttons
+    clearActiveClass();
+    document.querySelector('.nav-item.prestamos .btn').classList.add('active');
     fetch('http://localhost:5000/api/getPrestamos')
     .then(response => response.json())
     .then(data => {
@@ -107,7 +189,11 @@ function mostrarPrestamos() {
 
 
 function mostrarCategorias() {
-    tipoTablaActual = "categorias";
+    console.log("Cateogrías!!")
+    tipoTablaActual = 'categorias';
+    // Clear active class from all buttons
+    clearActiveClass();
+    document.querySelector('.nav-item.categorias .btn').classList.add('active');
     fetch('http://localhost:5000/api/getCategorias')
     .then(response => response.json())
     .then(data => {
@@ -135,5 +221,43 @@ function mostrarCategorias() {
         });
     })
     .catch(error => console.error('Error al obtener categorías:', error));
+}
+
+
+function borrarUsuario(num_socio) {
+    // Hacer una solicitud DELETE al backend para borrar el usuario con el ID proporcionado
+    fetch(`http://localhost:5000/api/borrarUsuario/${num_socio}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Usuario borrado exitosamente');
+            // Actualizar la tabla después de borrar el usuario si es necesario
+            // Puedes llamar a la función mostrarUsuarios() nuevamente para refrescar la tabla
+            mostrarUsuarios();
+        } else {
+            console.error('Error al borrar usuario:', response.statusText);
+        }
+    })
+    .catch(error => console.error('Error al borrar usuario:', error));
+}
+
+
+function borrarLibro(id_libro) {
+    // Hacer una solicitud DELETE al backend para borrar el usuario con el ID proporcionado
+    fetch(`http://localhost:5000/api/borrarLibro/${id_libro}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Usuario borrado exitosamente');
+            // Actualizar la tabla después de borrar el usuario si es necesario
+            // Puedes llamar a la función mostrarUsuarios() nuevamente para refrescar la tabla
+            mostrarUsuarios();
+        } else {
+            console.error('Error al borrar usuario:', response.statusText);
+        }
+    })
+    .catch(error => console.error('Error al borrar usuario:', error));
 }
 

@@ -33,16 +33,16 @@ function mostrarUsuarios() {
         // Agregar encabezados de tabla
         const encabezadoTabla = document.getElementById('tabla-encabezado');
         encabezadoTabla.innerHTML = '';
-        headers.categorias.forEach(header => {
+        headers.usuarios.forEach(header => {
             const th = document.createElement('th');
             th.textContent = header;
             encabezadoTabla.appendChild(th);
         });
 
         // Agregar encabezado adicional para el botón de borrar
-        const thBorrar = document.createElement('th');
-        thBorrar.textContent = 'Editar';
-        encabezadoTabla.appendChild(thBorrar);
+        const thEditar = document.createElement('th');
+        thEditar.textContent = 'Editar';
+        encabezadoTabla.appendChild(thEditar);
 
         // Agregar filas a la tabla
         data.forEach(usuario => {
@@ -110,9 +110,9 @@ function mostrarLibros() {
         });
 
         // Agregar encabezado adicional para el botón de borrar
-        const thBorrar = document.createElement('th');
-        thBorrar.textContent = 'Editar';
-        encabezadoTabla.appendChild(thBorrar);
+        const thEditar = document.createElement('th');
+        thEditar.textContent = 'Editar';
+        encabezadoTabla.appendChild(thEditar);
 
         // Agregar filas a la tabla
         data.forEach(libro => {
@@ -173,6 +173,11 @@ function mostrarPrestamos() {
             encabezadoTabla.appendChild(th);
         });
 
+        // Agregar encabezado adicional para el botón de borrar
+        const thEditar = document.createElement('th');
+        thEditar.textContent = 'Editar';
+        encabezadoTabla.appendChild(thEditar);
+
         // Agregar Filas a la tabla
         data.forEach(prestamo => {
             const fila = document.createElement('tr');
@@ -181,6 +186,30 @@ function mostrarPrestamos() {
                 celda.textContent = dato;
                 fila.appendChild(celda);
             });
+
+            // Crear la celda para el botón de borrar
+            const celdaBorrar = document.createElement('td');
+
+            // Crear el botón de borrar
+            const botonBorrar = document.createElement('button');
+            botonBorrar.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                </svg>`;
+            botonBorrar.classList.add('btn', 'btn-danger', 'btn-borrar'); // Aplica la clase CSS
+            botonBorrar.dataset.idPrestamo = prestamo[0]; // Guarda el ID del préstamo en un atributo de datos
+            botonBorrar.addEventListener('click', function() {
+                // Llamar a la función para borrar préstamo y pasar el ID del préstamo
+                borrarPrestamo(this.dataset.idPrestamo);
+            });
+
+            // Agregar el botón de borrar a la celda correspondiente
+            celdaBorrar.appendChild(botonBorrar);
+
+            // Agregar la celda al final de la fila
+            fila.appendChild(celdaBorrar);
+
+            // Agregar la fila al cuerpo de la tabla
             cuerpoTabla.appendChild(fila);
         });
     })
@@ -188,12 +217,12 @@ function mostrarPrestamos() {
 }
 
 
+
 function mostrarCategorias() {
-    console.log("Cateogrías!!")
     tipoTablaActual = 'categorias';
     // Clear active class from all buttons
     clearActiveClass();
-    document.querySelector('.nav-item.categorias .btn').classList.add('active');
+    document.querySelector('.nav-item.categoria .btn').classList.add('active'); // Cambiado de .nav-item.categorias a .nav-item.categoria
     fetch('http://localhost:5000/api/getCategorias')
     .then(response => response.json())
     .then(data => {
@@ -209,6 +238,11 @@ function mostrarCategorias() {
             encabezadoTabla.appendChild(th);
         });
 
+        // Agregar encabezado adicional para el botón de borrar
+        const thEditar = document.createElement('th');
+        thEditar.textContent = 'Editar';
+        encabezadoTabla.appendChild(thEditar);
+
         // Agregar Filas a la tabla
         data.forEach(categoria => {
             const fila = document.createElement('tr');
@@ -217,6 +251,30 @@ function mostrarCategorias() {
                 celda.textContent = dato;
                 fila.appendChild(celda);
             });
+
+            // Crear la celda para el botón de borrar
+            const celdaBorrar = document.createElement('td');
+
+            // Crear el botón de borrar
+            const botonBorrar = document.createElement('button');
+            botonBorrar.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                </svg>`;
+            botonBorrar.classList.add('btn', 'btn-danger', 'btn-borrar'); // Aplica la clase CSS
+            botonBorrar.dataset.idCategoria = categoria[0]; // Guarda el ID de la categoría en un atributo de datos
+            botonBorrar.addEventListener('click', function() {
+                // Llamar a la función para borrar categoría y pasar el ID de la categoría
+                borrarCategoria(this.dataset.idCategoria);
+            });
+
+            // Agregar el botón de borrar a la celda correspondiente
+            celdaBorrar.appendChild(botonBorrar);
+
+            // Agregar la celda al final de la fila
+            fila.appendChild(celdaBorrar);
+
+            // Agregar la fila al cuerpo de la tabla
             cuerpoTabla.appendChild(fila);
         });
     })
@@ -224,40 +282,92 @@ function mostrarCategorias() {
 }
 
 
-function borrarUsuario(num_socio) {
-    // Hacer una solicitud DELETE al backend para borrar el usuario con el ID proporcionado
-    fetch(`http://localhost:5000/api/borrarUsuario/${num_socio}`, {
-        method: 'DELETE',
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Usuario borrado exitosamente');
-            // Actualizar la tabla después de borrar el usuario si es necesario
-            // Puedes llamar a la función mostrarUsuarios() nuevamente para refrescar la tabla
-            mostrarUsuarios();
-        } else {
-            console.error('Error al borrar usuario:', response.statusText);
-        }
-    })
-    .catch(error => console.error('Error al borrar usuario:', error));
-}
 
+
+function borrarUsuario(num_socio) {
+    confirmarEliminacion("¿Estás seguro de que deseas eliminar este usuario?", function(confirmado) {
+        if (confirmado) {
+            fetch(`http://localhost:5000/api/borrarUsuario/${num_socio}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Usuario borrado exitosamente');
+                    mostrarUsuarios();
+                } else {
+                    console.error('Error al borrar usuario:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error al borrar usuario:', error));
+        }
+    });
+}
 
 function borrarLibro(id_libro) {
-    // Hacer una solicitud DELETE al backend para borrar el usuario con el ID proporcionado
-    fetch(`http://localhost:5000/api/borrarLibro/${id_libro}`, {
-        method: 'DELETE',
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Usuario borrado exitosamente');
-            // Actualizar la tabla después de borrar el usuario si es necesario
-            // Puedes llamar a la función mostrarUsuarios() nuevamente para refrescar la tabla
-            mostrarUsuarios();
-        } else {
-            console.error('Error al borrar usuario:', response.statusText);
+    confirmarEliminacion("¿Estás seguro de que deseas eliminar este libro?", function(confirmado) {
+        if (confirmado) {
+            fetch(`http://localhost:5000/api/borrarLibro/${id_libro}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Libro borrado exitosamente');
+                    mostrarLibros();
+                } else {
+                    console.error('Error al borrar libro:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error al borrar libro:', error));
         }
-    })
-    .catch(error => console.error('Error al borrar usuario:', error));
+    });
 }
+
+function borrarPrestamo(id_prestamo) {
+    confirmarEliminacion("¿Estás seguro de que deseas eliminar este préstamo?", function(confirmado) {
+        if (confirmado) {
+            fetch(`http://localhost:5000/api/borrarPrestamo/${id_prestamo}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Préstamo eliminado exitosamente');
+                    mostrarPrestamos();
+                } else {
+                    console.error('Error al eliminar préstamo:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error al eliminar préstamo:', error));
+        }
+    });
+}
+
+function borrarCategoria(id_categoria) {
+    confirmarEliminacion("¿Estás seguro de que deseas eliminar esta categoría?", function(confirmado) {
+        if (confirmado) {
+            fetch(`http://localhost:5000/api/borrarCategoria/${id_categoria}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Categoría eliminada exitosamente');
+                    mostrarCategorias();
+                } else {
+                    console.error('Error al eliminar categoría:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error al eliminar categoría:', error));
+        }
+    });
+}
+
+
+
+function confirmarEliminacion(mensaje, callback) {
+    // Mostrar un cuadro de diálogo de confirmación al usuario
+    const confirmacion = confirm(mensaje);
+    
+    // Llamar al callback con el resultado de la confirmación
+    callback(confirmacion);
+}
+
 

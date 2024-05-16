@@ -371,3 +371,34 @@ function confirmarEliminacion(mensaje, callback) {
 }
 
 
+function createUser(nombre) {
+    // Define el objeto de datos a enviar en la solicitud
+    const data = {
+        nombre: nombre
+    };
+
+    // Configura la solicitud POST
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+
+    // Realiza la solicitud a la ruta del backend
+    fetch('http://localhost:5000/api/new_user', requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al crear usuario');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.message); // Muestra el mensaje de respuesta del servidor
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+

@@ -24,7 +24,7 @@ function mostrarUsuarios() {
     // Clear active class from all buttons
     clearActiveClass();
     document.querySelector('.nav-item.usuarios .btn').classList.add('active');
-    fetch('http://localhost:5000/api/getUsuarios')
+    fetch('http://172.16.5.109:5000/api/getUsuarios')
     .then(response => response.json())
     .then(data => {
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
@@ -94,7 +94,7 @@ function mostrarLibros() {
     // Clear active class from all buttons
     clearActiveClass();
     document.querySelector('.nav-item.libros .btn').classList.add('active');
-    fetch('http://localhost:5000/api/getLibros')
+    fetch('http://172.16.5.109:5000/api/getLibros')
     .then(response => response.json())
     .then(data => {
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
@@ -158,7 +158,7 @@ function mostrarPrestamos() {
     // Clear active class from all buttons
     clearActiveClass();
     document.querySelector('.nav-item.prestamos .btn').classList.add('active');
-    fetch('http://localhost:5000/api/getPrestamos')
+    fetch('http://172.16.5.109:5000/api/getPrestamos')
     .then(response => response.json())
     .then(data => {
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
@@ -223,7 +223,7 @@ function mostrarCategorias() {
     // Clear active class from all buttons
     clearActiveClass();
     document.querySelector('.nav-item.categoria .btn').classList.add('active'); // Cambiado de .nav-item.categorias a .nav-item.categoria
-    fetch('http://localhost:5000/api/getCategorias')
+    fetch('http://172.16.5.109:5000/api/getCategorias')
     .then(response => response.json())
     .then(data => {
         const cuerpoTabla = document.getElementById('cuerpo-tabla');
@@ -287,7 +287,7 @@ function mostrarCategorias() {
 function borrarUsuario(num_socio) {
     confirmarEliminacion("¿Estás seguro de que deseas eliminar este usuario?", function(confirmado) {
         if (confirmado) {
-            fetch(`http://localhost:5000/api/borrarUsuario/${num_socio}`, {
+            fetch(`http://172.16.5.109:5000/api/borrarUsuario/${num_socio}`, {
                 method: 'DELETE',
             })
             .then(response => {
@@ -306,7 +306,7 @@ function borrarUsuario(num_socio) {
 function borrarLibro(id_libro) {
     confirmarEliminacion("¿Estás seguro de que deseas eliminar este libro?", function(confirmado) {
         if (confirmado) {
-            fetch(`http://localhost:5000/api/borrarLibro/${id_libro}`, {
+            fetch(`http://172.16.5.109:5000/api/borrarLibro/${id_libro}`, {
                 method: 'DELETE',
             })
             .then(response => {
@@ -325,7 +325,7 @@ function borrarLibro(id_libro) {
 function borrarPrestamo(id_prestamo) {
     confirmarEliminacion("¿Estás seguro de que deseas eliminar este préstamo?", function(confirmado) {
         if (confirmado) {
-            fetch(`http://localhost:5000/api/borrarPrestamo/${id_prestamo}`, {
+            fetch(`http://172.16.5.109:5000/api/borrarPrestamo/${id_prestamo}`, {
                 method: 'DELETE',
             })
             .then(response => {
@@ -344,7 +344,7 @@ function borrarPrestamo(id_prestamo) {
 function borrarCategoria(id_categoria) {
     confirmarEliminacion("¿Estás seguro de que deseas eliminar esta categoría?", function(confirmado) {
         if (confirmado) {
-            fetch(`http://localhost:5000/api/borrarCategoria/${id_categoria}`, {
+            fetch(`http://172.16.5.109:5000/api/borrarCategoria/${id_categoria}`, {
                 method: 'DELETE',
             })
             .then(response => {

@@ -9,7 +9,7 @@ const headers = {
 let tipoTablaActual = ''; // Variable para almacenar el tipo de tabla actual
 
 document.addEventListener('DOMContentLoaded', function() {
-    mostrarUsuarios(); // Llama a la función mostrarUsuarios() cuando la página se carga
+    mostrarUsuarios();
 });
 
 function clearActiveClass() {
@@ -321,6 +321,62 @@ function borrarLibro(id_libro) {
         }
     });
 }
+
+function mostrarFormulario(formulario) {
+    let contenedorFormulario = document.getElementById('contenedorFormulario');
+
+    let formularios = {
+        'formUsuario': `
+            <form id="formUsuario" class="mb-3">
+                <div class="mb-3">
+                    <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
+                    <input type="text" class="form-control" id="nombreUsuario" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+            </form>
+        `,
+        'formLibro': `
+            <form id="formLibro" class="mb-3">
+                <div class="mb-3">
+                    <label for="tituloLibro" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="tituloLibro" required>
+                </div>
+                <div class="mb-3">
+                    <label for="autorLibro" class="form-label">Autor</label>
+                    <input type="text" class="form-control" id="autorLibro" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar Libro</button>
+            </form>
+        `,
+        'formPrestamo': `
+            <form id="formPrestamo" class="mb-3">
+                <div class="mb-3">
+                    <label for="numSocio" class="form-label">Número de Socio</label>
+                    <input type="number" class="form-control" id="numSocio" required>
+                </div>
+                <div class="mb-3">
+                    <label for="idLibro" class="form-label">ID del Libro</label>
+                    <input type="number" class="form-control" id="idLibro" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar Préstamo</button>
+            </form>
+        `,
+        'formCategoria': `
+            <form id="formCategoria" class="mb-3">
+                <div class="mb-3">
+                    <label for="nombreCategoria" class="form-label">Nombre de Categoría</label>
+                    <input type="text" class="form-control" id="nombreCategoria" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar Categoría</button>
+            </form>
+        `
+    };
+
+    contenedorFormulario.innerHTML = formularios[formulario];
+}
+
+
+
 
 function borrarPrestamo(id_prestamo) {
     confirmarEliminacion("¿Estás seguro de que deseas eliminar este préstamo?", function(confirmado) {
